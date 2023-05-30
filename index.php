@@ -1,3 +1,29 @@
+<?php
+include('db_connect.php');
+
+if(isset($_POST['submit'])){
+    $std_name = $_POST['std_name'];
+    $std_email = $_POST['std_email'];
+    $std_roll = $_POST['std_roll'];
+    $std_img = $_FILES['std_img']['name'];
+    $tmp_name = $_FILES['std_img']['tmp_name'];
+
+
+    
+    
+    $sql = "INSERT INTO `students_crud` (std_name,std_email,std_roll,std_img) VALUES ('$std_name','$std_email','$std_roll','$std_img')";
+    
+    
+    $result = mysqli_query($conn,$sql);
+    if($result){
+        move_uploaded_file($tmp_name,'upload/'.$std_img);
+        header('location: index.php');
+    }else{
+        die(mysqli_error($conn));
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,17 +40,17 @@
             <div class="col-lg-12">
                 <h4 class="text-center bg-primary text-light mt-5">Students Crud Operation</h4>
             </div>
-        <form class="form" action="" method="" enctype="multipart/form-data">
+        <form class="form" action="" method="POST" enctype="multipart/form-data"  >
             <input type="text" class="form-control" name="std_name" placeholder="Enter Your Name">
             <input type="email" class="form-control" name="std_email" placeholder="Enter Your email">
             <input type="number" class="form-control" name="std_roll" placeholder="Enter Your Id">
 
 
             <label for="">Upload Image</label>
-            <input type="file" name="std_img" id="" class="form-control">
+            <input type="file" name="std_img"  class="form-control">
 
 
-            <input type="submit" class="btn btn-success mt-3" name="std_submit" value="Submit" c>
+            <input type="submit" class="btn btn-success mt-3" name="submit"  value="submit" >
         </form>
 
     </div>
